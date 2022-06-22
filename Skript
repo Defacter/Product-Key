@@ -1,0 +1,70 @@
+#Made By Defacter
+#Free Source
+
+command /key [<text>]:
+    trigger:
+        if arg 1 is set:
+            if {keys::*} contain arg 1:
+                if {key.%arg 1%} is not true:
+                    set {key.%player's uuid%} to true
+                    set {key.enable.%player's uuid%} to true
+                    send "&aSuccessfully used!"
+                else if {key.%arg 1%} is true:
+                    send "&cThis key is already used."
+            else:
+                send "&cWrong or Missing key."
+        else:
+            send "&CUsage: /key <product key>"
+
+command /createkey [<text>]:
+    permission: op
+    permission message: &cYou don't have op.
+    trigger:
+        if arg 1 is set:
+            if arg 1 is "random":
+                set {key1::*} to "A", "B", "C", "D", "E", "F" and "G"
+                set {key2::*} to "1", "2", "3", "4", "5", "6" and "7"
+                set {key3::*} to "H", "I", "J", "K", "L", "M" and "N"
+                set {_key1-1} to random element out of {key1::*}
+                set {_key1-2} to random element out of {key1::*}
+                set {_key1-3} to random element out of {key1::*}
+                set {_key1-4} to random element out of {key1::*}
+                set {_key2-1} to random element out of {key2::*}
+                set {_key2-2} to random element out of {key2::*}
+                set {_key2-3} to random element out of {key2::*}
+                set {_key2-4} to random element out of {key2::*}
+                set {_key3-1} to random element out of {key3::*}
+                set {_key3-2} to random element out of {key3::*}
+                set {_key3-3} to random element out of {key3::*}
+                set {_key3-4} to random element out of {key3::*}
+                set {_key} to "%{_key1-1}%%{_key1-2}%%{_key1-3}%%{_key1-4}%-%{_key2-1}%%{_key2-2}%%{_key2-3}%%{_key2-4}%-%{_key3-1}%%{_key3-2}%%{_key3-3}%%{_key3-4}%"
+                add {_key} to {keys::*}
+                delete {key1::*}
+                delete {key2::*}
+                delete {key3::*}
+                send "&aYour random product key is %{_key1-1}%%{_key1-2}%%{_key1-3}%%{_key1-4}%-%{_key2-1}%%{_key2-2}%%{_key2-3}%%{_key2-4}%-%{_key3-1}%%{_key3-2}%%{_key3-3}%%{_key3-4}%"
+            else:
+                add arg 1 to {key::*}
+                send "&aYour product key is %arg 1%"
+        if arg 1 is not set:
+            send "&cUsage: /createkey <product key>"
+
+command /deletekey [<text>]:
+    permission: op
+    permission message: &cYou don't have op.
+    trigger:
+        if arg 1 is set:
+            if {keys::*} contain arg 1:
+                remove arg 1 from {keys::*}
+                send "&aSuccessfully deleted."
+            else:
+                send "&cWrong or Missing key."
+        if arg 1 is not set:
+            send "&cUsage: /deletekey <product key>"
+
+command /gamestart: #stuff
+    trigger:
+        if {key.%player's uuid%} is true:
+            send "&aGame is started!"
+        else:
+            send "&cYou can't join the game because your product key is not set."
